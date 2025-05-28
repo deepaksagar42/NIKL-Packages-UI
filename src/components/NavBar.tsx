@@ -3,7 +3,7 @@ import { Box, Flex, Text, Link } from '@radix-ui/themes';
 export function NavBar() {
   return (
     <Box
-          as="div"
+      as="div"
       width="100%"
       px="4"
       py="3"
@@ -22,14 +22,14 @@ export function NavBar() {
           <Link href="/" underline="none" weight="medium" color="gray">
             Home
           </Link>
-          <Link href="/packages" underline="none" weight="medium" color="gray">
-            Packages
+          <Link href="/search" underline="none" weight="medium" color="gray">
+            Search
           </Link>
-          <Link href="/publish" underline="none" weight="medium" color="gray">
-            Publish
+          <Link href="/login" underline="none" weight="medium" color="gray">
+            Login
           </Link>
-          <Link href="/about" underline="none" weight="medium" color="gray">
-            About
+          <Link href="/register" underline="none" weight="medium" color="gray">
+            Register
           </Link>
         </Flex>
       </Flex>
