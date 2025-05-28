@@ -1,13 +1,16 @@
+import { Box } from "@radix-ui/themes";
 import React from "react";
+import { NavBar } from "../components/NavBar";
 
 
 export const Register: React.FC = () => {
   return (
-    <div style={{ padding: 20, fontFamily: "Arial, sans-serif" }}>
+    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <NavBar />
+
       <h1>Register</h1>
 
-      
-    </div>
+    </Box>
   );
 };
 
