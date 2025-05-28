@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import { TextField, Button, Box } from '@radix-ui/themes';
+import { SinglePackage } from './SinglePackage';
 
 
 //defining the props for the SearchBar component
@@ -32,19 +33,22 @@ export function SearchBar({data, placeholder = "Search..."}: SearchBarProps) {
         size="3"
       >
         <TextField.Slot side="right" px="1">
-          <Button size="2">Send</Button>
+          <Button size="2">Search</Button>
         </TextField.Slot>
       </TextField.Root>
 
-
-
-
-          <ul>
-              {filteredData.map((item, index) => (
-                  <li key={index}>{item}</li>
-              ))}
-          </ul>
-
+      
+      {/* Displaying the filtered results */}
+      <Box mt="2" mb="2">
+        {filteredData.map((item, index) => (
+          <SinglePackage
+            packageName={item}
+            packageVersion="1.0.0"
+            packageShortDescription="This is a short description of the package."
+            key={index}
+          />
+        ))}
+      </Box>
 
     </Box>
   );

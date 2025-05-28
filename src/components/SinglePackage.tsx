@@ -1,51 +1,30 @@
-import {useState} from 'react';
-import { TextField, Button, Box } from '@radix-ui/themes';
+import { Box, Card, Text } from '@radix-ui/themes';
 
 
-//defining the props for the SearchBar component
-interface SearchBarProps {
-  data: string[]; // Array of strings to search from
-  placeholder?: string  // Optional placeholder text for the input
+
+interface SinglePackageProps {
+  packageName: string;
+  packageVersion: string;
+  packageShortDescription: string;
 }
 
-//creating the SearchBar component
-export function SearchBar({data, placeholder = "Search..."}: SearchBarProps) {
 
-  //state to hold the search term, first item is the state variable, second is the function to update it
-  const [searchTerm, setSearchTerm] = useState('');
 
-  //filter teh data based on the search term
-  //this will filter the data array and return only the items that include the search term
-  const filteredData = data.filter(item =>
-    item.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  // If the search term is empty, we clear the filteredData array
-  if(searchTerm === '') { filteredData.length = 0; }
+
+export function SinglePackage({packageName, packageVersion, packageShortDescription}: SinglePackageProps) {
 
   return (
-    <Box>
-      <TextField.Root
-        type='text'
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        placeholder={placeholder}
-        size="3"
-      >
-        <TextField.Slot side="right" px="1">
-          <Button size="2">Send</Button>
-        </TextField.Slot>
-      </TextField.Root>
-
-
-
-
-          <ul>
-              {filteredData.map((item, index) => (
-                  <li key={index}>{item}</li>
-              ))}
-          </ul>
-
-
+    <Box maxWidth="350px">
+      <Card asChild>
+        <a href={`/package/${packageName}/${packageVersion}`} style={{ textDecoration: 'none' }}>
+          <Text as="div" size="2" weight="bold">
+            {packageName} v{packageVersion}
+          </Text>
+          <Text as="div" color="gray" size="2">
+            {packageShortDescription}
+          </Text>
+        </a>
+      </Card>
     </Box>
   )
 }
