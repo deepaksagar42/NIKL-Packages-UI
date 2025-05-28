@@ -1,40 +1,49 @@
-import { Box } from "@radix-ui/themes";
+import { Box, Text } from "@radix-ui/themes";
 import React from "react";
-import { SinglePackage } from "../components/SinglePackage";
+import { SearchBar } from "../components/SearchBar";
+import { DisplaySinglePackage } from "../components/SinglePackage";
 
+
+const FakeResults = [
+  {
+    Name: "example-package",
+    LatestVersion: "1.0.0",
+    ShortDescription: "This is an example package.",
+    UpdatedAt: "2023-10-01T12:00:00Z",
+  },
+  {
+    Name: "another-package",
+    LatestVersion: "2.3.4",
+    ShortDescription: "Another example package.",
+    UpdatedAt: "2023-10-02T15:30:00Z",
+  }
+];
 
 export const Search: React.FC = () => {
-
-
-  const filteredData = [
-    "core",
-    "utils",
-    "http",
-    "db",
-    "ui",
-    "auth",
-  ].filter(item =>
-    item.toLowerCase().includes("nikl") // Example filter condition, replace with actual search term
-  );
+  
+  // Get the search query from the URL: "/search?q=test"
+  const searchParams = new URLSearchParams(window.location.search);
+  const query = searchParams.get("q");
 
   return (
-    <div style={{ padding: 20, fontFamily: "Arial, sans-serif" }}>
-      <h1>Search</h1>
+    <Box>
+      <SearchBar />
 
+      <Text>
+        Search query param is: <strong>{query}</strong>
+      </Text>
 
-      {/* Displaying the filtered results */}
-      <Box mt="2" mb="2">
-        {filteredData.map((item, index) => (
-          <SinglePackage
-            packageName={item}
-            packageVersion="1.0.0"
-            packageShortDescription="This is a short description of the package."
-            key={index}
-          />
-        ))}
-      </Box>
-      
-    </div>
+      {FakeResults.map((pkg) => (
+        <DisplaySinglePackage
+          key={pkg.Name}
+          Name={pkg.Name}
+          LatestVersion={pkg.LatestVersion}
+          ShortDescription={pkg.ShortDescription}
+          UpdatedAt={pkg.UpdatedAt}
+        />
+      ))}
+
+    </Box>
   );
 };
 
