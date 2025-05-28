@@ -13,7 +13,7 @@ export function NavBar() {
       }}>
       <Flex justify="between" align="center">
         {/* Logo / Brand */}
-        <Text as="span" weight="bold" size="4" color="gray">
+        <Text as="span" weight="bold" size="4" color="gray" onClick={() => window.location.href = '/'} style={{ cursor: 'pointer' }}>
           Nik-Lang Package Manager
         </Text>
 
