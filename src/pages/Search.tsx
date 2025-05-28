@@ -2,6 +2,7 @@ import { Box, Text } from "@radix-ui/themes";
 import React from "react";
 import { SearchBar } from "../components/SearchBar";
 import { DisplaySinglePackage } from "../components/SinglePackage";
+import { NavBar } from "../components/NavBar";
 
 
 const FakeResults = [
@@ -26,7 +27,8 @@ export const Search: React.FC = () => {
   const query = searchParams.get("q");
 
   return (
-    <Box>
+    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <NavBar />
       <SearchBar />
 
       <Text>

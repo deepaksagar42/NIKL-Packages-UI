@@ -18,7 +18,8 @@ export function SearchBar() {
     <form onSubmit={(e) => {
       e.preventDefault();
       handleSearch();
-    }}>
+    }}
+    >
       <TextField.Root
         type='text'
         value={searchTerm}
@@ -32,7 +33,6 @@ export function SearchBar() {
         autoCapitalize="off"
         spellCheck="false"
         inputMode="search"
-        style={{ width: '100%' }}
       >
         <TextField.Slot side="left" px="1">
           <MagnifyingGlassIcon height="16" width="16" />

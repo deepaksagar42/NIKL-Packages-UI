@@ -14,7 +14,7 @@ export function DisplaySinglePackage({
   UpdatedAt,
 }: SinglePackageProps) {
   return (
-    <Box width="100%" mb="3">
+    <Box width="30%" mb="4" style={{ minWidth: "500px" }}>
       <Card asChild variant="classic">
         <a
           href={`/package/${Name}/${LatestVersion}`}
