@@ -47,5 +47,5 @@ export function SearchBar({data, placeholder = "Search..."}: SearchBarProps) {
 
 
     </Box>
-  );
+  )
 }

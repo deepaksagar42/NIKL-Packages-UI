@@ -5,6 +5,7 @@ import './App.css'
 import { SearchBar } from './components/SearchBar'
 
 
+
 const dummyPackages = [
   'nikl-core',
   'nikl-utils',
