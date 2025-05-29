@@ -34,7 +34,7 @@ export const ForgotPassword: React.FC = () => {
       </Heading>
 
       <Text size="3" style={{ marginBottom: "20px", textAlign: "center" }}>
-        To reset your password, enter your username or email
+        To reset your password, enter your user name or email
       </Text>
 
       <Card
@@ -49,7 +49,7 @@ export const ForgotPassword: React.FC = () => {
         <Flex direction="column" gap="3" align="center">
           <TextField.Root
             radius="full"
-            placeholder="Username or Email"
+            placeholder="User Name or Email"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             style={{ width: "100%" }}

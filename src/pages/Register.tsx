@@ -38,7 +38,7 @@ export const Register: React.FC = () => {
     ) {
       // Simulate registration logic
       console.log("Registered!");
-      console.log("Username:", username);
+      console.log("User Name:", username);
       console.log("Email:", email);
       console.log("Password:", password);
 
@@ -71,7 +71,7 @@ export const Register: React.FC = () => {
       >
         <Flex direction="column" gap="3" align="center" style={{ width: "100%" }}>
           <TextField.Root
-            placeholder="Username"
+            placeholder="User Name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             style={{ width: "100%" }}

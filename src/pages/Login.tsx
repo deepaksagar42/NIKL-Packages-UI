@@ -52,7 +52,7 @@ export const Login: React.FC = () => {
         <Flex direction="column" gap="3" align="center">
           <TextField.Root
             radius="full"
-            placeholder="Username"
+            placeholder="User Name"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             style={{ width: "100%" }}
