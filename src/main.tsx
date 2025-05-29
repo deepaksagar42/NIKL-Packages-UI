@@ -23,7 +23,7 @@ createRoot(document.getElementById('root')!).render(
         radius="full"
       >
         <App />
-        {/* <ThemePanel /> */}
+        <ThemePanel defaultOpen={false} />
       </Theme>
     </JotaiProvider>
   </StrictMode>,
