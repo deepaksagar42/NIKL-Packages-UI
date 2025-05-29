@@ -7,6 +7,7 @@ import {
   Checkbox,
   Flex,
   Heading,
+  Link,
   Text,
   TextField,
 } from "@radix-ui/themes";
@@ -65,12 +66,16 @@ export const Login: React.FC = () => {
             style={{ width: "100%" }}
           />
 
-          <Flex align="center" gap="2" style={{ width: "100%", cursor: "pointer" }} onClick={() => setShowPassword(!showPassword)}>
+          <Flex align="center" gap="2" style={{ width: "100%" }}>
             <Checkbox
               checked={showPassword}
               onCheckedChange={(checked) => setShowPassword(!!checked)}
             />
-            <Text size="2">Show Password</Text>
+            <Text size="2" onClick={() => setShowPassword(!showPassword)} style={{ cursor: "pointer" }}>Show Password</Text>
+
+            <Link href="/forgot-password" style={{ marginLeft: "auto" }}>
+              <Text size="2" color="blue">Forgot Password?</Text>
+            </Link>
           </Flex>
 
           <Button

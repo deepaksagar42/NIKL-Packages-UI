@@ -12,6 +12,7 @@ import PackageDetails from './pages/PackageDetails';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import PublicPackageDetails from './pages/PublicPackageDetails';
+import ForgotPassword from './pages/ForgotPassword';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
           <>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
           </>
           :
           <>
