@@ -1,29 +1,55 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import { useAtomValue } from 'jotai';
+import { csrfToken } from './state/Auth';
+import Dashboard from './pages/Dashboard';
+import Packages from './pages/Packages';
+import PackageDetails from './pages/PackageDetails';
+import Profile from './pages/Profile';
+import Settings from './pages/Settings';
+import PublicPackageDetails from './pages/PublicPackageDetails';
 
 
 function App() {
+  const user = useAtomValue(csrfToken);
+  console.log('@@@ Logged in state', user);
+
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/package/:id/:version" element={<PublicPackageDetails />} />
 
         {/* Authentication routes */}
-        {/* TODO: Handle where user is already logged in, if user is already logged in, do not show login/register pages */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        { !user ?
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </>
+          :
+          <>
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/register" element={<Navigate to="/" replace />} />
+          </>
+        }
 
-        {/* TODO: Private routes for authenticated users */}
-        {/* <Route path="/manage/dashboard" element={<Dashboard />} /> */}
-        {/* <Route path="/manage/packages" element={<Packages />} /> */}
-        {/* <Route path="/manage/packages/:id" element={<PackageDetails />} /> */}
-        {/* <Route path="/manage/profile" element={<Profile />} /> */}
-        {/* <Route path="/manage/settings" element={<Settings />} /> */}
+        {/* Private routes for authenticated users */}
+        { user &&
+          <>
+            <Route path="/manage" element={<Navigate to="/manage/dashboard" replace />} />
+            <Route path="/manage/dashboard" element={<Dashboard />} />
+            <Route path="/manage/packages" element={<Packages />} />
+            <Route path="/manage/packages/:id" element={<PackageDetails />} />
+            <Route path="/manage/profile" element={<Profile />} />
+            <Route path="/manage/settings" element={<Settings />} />
+          </>
+        }
 
         {/* Catch-all route for 404 Not Found */}
         <Route path="*" element={<NotFound />} />
