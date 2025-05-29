@@ -1,7 +1,24 @@
-import { Box, Flex, Text, Link } from '@radix-ui/themes';
+import { Box, Flex, Text, Link, Button } from '@radix-ui/themes';
 import NikLPkgMgrLogo from '/nikl-pkg.svg'
+import { csrfToken } from '../state/Auth';
+import { useAtomValue, useSetAtom } from 'jotai';
+
+
+type NavButtonProps = {
+  name: string;
+  href: string;
+};
 
 export function NavBar() {
+  const user = useAtomValue(csrfToken);
+  const setCsrfToken = useSetAtom(csrfToken);
+
+  const DisplayNavButton = ({ name, href }: NavButtonProps) => (
+    <Link href={href} underline="none" weight="medium" color="gray">
+      {name}
+    </Link>
+  );
+
   return (
     <Box
       as="div"
@@ -22,20 +39,31 @@ export function NavBar() {
           </Text>
         </Flex>
 
-        {/* Nav Links */}
         <Flex gap="4" align="center">
-          <Link href="/" underline="none" weight="medium" color="gray">
-            Home
-          </Link>
-          <Link href="/search" underline="none" weight="medium" color="gray">
-            Search
-          </Link>
-          <Link href="/login" underline="none" weight="medium" color="gray">
-            Login
-          </Link>
-          <Link href="/register" underline="none" weight="medium" color="gray">
-            Register
-          </Link>
+          <DisplayNavButton name="Home" href="/" />
+          <DisplayNavButton name="Search" href="/search" />
+          {user ? (
+            <>
+              <DisplayNavButton name="Dashboard" href="/manage/dashboard" />
+              <DisplayNavButton name="Packages" href="/manage/packages" />
+              <DisplayNavButton name="Profile" href="/manage/profile" />
+              <DisplayNavButton name="Settings" href="/manage/settings" />
+              <Button
+                color="red"
+                onClick={() => {
+                  setCsrfToken('');
+                  window.location.href = '/';
+                }}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <DisplayNavButton name="Login" href="/login" />
+              <DisplayNavButton name="Register" href="/register" />
+            </>
+          )}
         </Flex>
       </Flex>
     </Box>

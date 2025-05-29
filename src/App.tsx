@@ -16,7 +16,6 @@ import PublicPackageDetails from './pages/PublicPackageDetails';
 
 function App() {
   const user = useAtomValue(csrfToken);
-  console.log('@@@ Logged in state', user);
 
   return (
     <BrowserRouter>
