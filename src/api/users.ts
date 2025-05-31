@@ -63,6 +63,7 @@ export const loginUser = async ({
         'accept': 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     });
 
     if (response.status === 200) {
