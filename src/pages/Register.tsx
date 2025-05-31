@@ -12,6 +12,8 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import zxcvbn from "zxcvbn";
+import HCaptcha from '@hcaptcha/react-hcaptcha';
+
 
 
 export const Register: React.FC = () => {
@@ -21,6 +23,7 @@ export const Register: React.FC = () => {
   const [retypePassword, setRetypePassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const passwordScore = zxcvbn(password).score;
 
@@ -29,6 +32,7 @@ export const Register: React.FC = () => {
 
   const handleRegister = () => {
     setSubmitted(true);
+    setButtonDisabled(true);
     if (
       username &&
       email &&
@@ -44,6 +48,13 @@ export const Register: React.FC = () => {
 
       // window.location.href = "/manage/dashboard";
     }
+  };
+
+  const handleVerificationSuccess = (token: string, ekey: string) => {
+    console.log("HCaptcha token:", token);
+    console.log("HCaptcha ekey:", ekey);
+    setButtonDisabled(false);
+    // Here you would typically send the token to your server for verification
   };
 
   return (
@@ -135,9 +146,22 @@ export const Register: React.FC = () => {
             </Text>
           </Flex>
 
+          <HCaptcha
+            sitekey="49a8ab5c-072a-4228-bd0c-bdd4bd70c450"
+            onVerify={(token,ekey) => handleVerificationSuccess(token, ekey)}
+          />
+
           <Button
             variant="solid"
             color="mint"
+            disabled={
+              !username ||
+              !email ||
+              !isPasswordStrong ||
+              !doPasswordsMatch ||
+              !agreeTerms ||
+              buttonDisabled
+            }
             onClick={handleRegister}
             style={{ width: "100%", marginTop: "10px" }}
           >
