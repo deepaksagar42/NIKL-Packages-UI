@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import {
   Box,
@@ -27,6 +27,7 @@ export const Register: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [hcaptchaToken, setHcaptchaToken] = useState("");
+  const hcaptchaRef = useRef<any>(null);
 
   const passwordScore = zxcvbn(password).score;
 
@@ -57,10 +58,16 @@ export const Register: React.FC = () => {
         console.log("Raw JSON response:", result);
         alert("Registration success: " + result.message);
         window.location.href = "/login";
+        return;
       } catch (error: any) {
+        console.error("Registration failed:", error);
         alert("Registration failed: " + error.message);
       }
     }
+    setButtonDisabled(false);
+    setSubmitted(false);
+    hcaptchaRef.current.resetCaptcha(); // Reset the hCaptcha widget
+    setHcaptchaToken(""); // Clear the hCaptcha token
   };
 
   const handleVerificationSuccess = (token: string) => {
@@ -167,6 +174,7 @@ export const Register: React.FC = () => {
           <HCaptcha
             sitekey="49a8ab5c-072a-4228-bd0c-bdd4bd70c450"
             onVerify={(token,_) => handleVerificationSuccess(token)}
+            ref={hcaptchaRef}
           />
 
           <Button

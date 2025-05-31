@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import {
   Box,
@@ -16,12 +16,14 @@ import { useSetAtom } from "jotai";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { loginUser } from "../api/users";
 
+
 export const Login: React.FC = () => {
   const setCsrfToken = useSetAtom(csrfToken);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [hcaptchaToken, setHcaptchaToken] = useState("");
+  const hcaptchaRef = useRef<any>(null);
 
   const handleLogin = async () => {
     if (!username || !password || !hcaptchaToken) {
@@ -43,11 +45,13 @@ export const Login: React.FC = () => {
       window.location.href = "/manage/dashboard";
     } catch (error: any) {
       console.error("Login failed:", error);
+      
+      hcaptchaRef.current.resetCaptcha();
+      setHcaptchaToken(""); // Clear token state
+
       alert("Login failed: " + error.message);
       return;
     }
-
-
   };
 
   const handleVerificationSuccess = (token: string) => {
@@ -109,6 +113,7 @@ export const Login: React.FC = () => {
           <HCaptcha
             sitekey="49a8ab5c-072a-4228-bd0c-bdd4bd70c450"
             onVerify={(token,_) => handleVerificationSuccess(token)}
+            ref={hcaptchaRef}
           />
 
           <Button
