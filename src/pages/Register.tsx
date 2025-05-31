@@ -45,14 +45,6 @@ export const Register: React.FC = () => {
       doPasswordsMatch &&
       agreeTerms
     ) {
-      // Simulate registration logic
-      console.log("Registered!");
-      console.log("User Name:", username);
-      console.log("Email:", email);
-      console.log("Password:", password);
-      console.log("Full Name:", fullName);
-      console.log("hCaptcha Token:", hcaptchaToken);
-
       try {
         const result = await registerUser({
           user_name: username,
@@ -64,9 +56,7 @@ export const Register: React.FC = () => {
 
         console.log("Raw JSON response:", result);
         alert("Registration success: " + result.message);
-
-        // Optional: redirect
-        // window.location.href = "/login";
+        window.location.href = "/login";
       } catch (error: any) {
         alert("Registration failed: " + error.message);
       }

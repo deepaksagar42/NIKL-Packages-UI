@@ -29,9 +29,9 @@ export const registerUser = async ({
       },
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log("Registration successful:", response.data);
-      return response.data; // ✅ return the raw JSON
+      return response.data;
     } else {
       throw new Error("Unexpected response status: " + response.status);
     }
@@ -39,6 +39,6 @@ export const registerUser = async ({
   } catch (error: any) {
     const errMsg = error.response?.data?.message || error.message;
     console.error("Registration failed:", errMsg);
-    throw new Error(errMsg); // ✅ throw error for caller to catch
+    throw new Error(errMsg);
   }
 };
