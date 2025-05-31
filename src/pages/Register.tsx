@@ -13,29 +13,34 @@ import {
 } from "@radix-ui/themes";
 import zxcvbn from "zxcvbn";
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { registerUser } from "../api/users";
 
 
 
 export const Register: React.FC = () => {
   const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [retypePassword, setRetypePassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [hcaptchaToken, setHcaptchaToken] = useState("");
 
   const passwordScore = zxcvbn(password).score;
 
   const isPasswordStrong = passwordScore >= 3;
   const doPasswordsMatch = password === retypePassword;
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     setSubmitted(true);
     setButtonDisabled(true);
     if (
       username &&
       email &&
+      password &&
+      fullName &&
       isPasswordStrong &&
       doPasswordsMatch &&
       agreeTerms
@@ -45,16 +50,34 @@ export const Register: React.FC = () => {
       console.log("User Name:", username);
       console.log("Email:", email);
       console.log("Password:", password);
+      console.log("Full Name:", fullName);
+      console.log("hCaptcha Token:", hcaptchaToken);
+
+      try {
+        const result = await registerUser({
+          user_name: username,
+          email,
+          password,
+          full_name: fullName,
+          hcaptcha_token: hcaptchaToken,
+        });
+
+        console.log("Raw JSON response:", result);
+        alert("Registration success: " + result.message);
+
+        // Optional: redirect
+        // window.location.href = "/login";
+      } catch (error: any) {
+        alert("Registration failed: " + error.message);
+      }
 
       // window.location.href = "/manage/dashboard";
     }
   };
 
-  const handleVerificationSuccess = (token: string, ekey: string) => {
-    console.log("HCaptcha token:", token);
-    console.log("HCaptcha ekey:", ekey);
+  const handleVerificationSuccess = (token: string) => {
+    setHcaptchaToken(token);
     setButtonDisabled(false);
-    // Here you would typically send the token to your server for verification
   };
 
   return (
@@ -81,6 +104,13 @@ export const Register: React.FC = () => {
         }}
       >
         <Flex direction="column" gap="3" align="center" style={{ width: "100%" }}>
+          <TextField.Root
+            placeholder="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            style={{ width: "100%" }}
+          />
+
           <TextField.Root
             placeholder="User Name"
             value={username}
@@ -148,7 +178,7 @@ export const Register: React.FC = () => {
 
           <HCaptcha
             sitekey="49a8ab5c-072a-4228-bd0c-bdd4bd70c450"
-            onVerify={(token,ekey) => handleVerificationSuccess(token, ekey)}
+            onVerify={(token,_) => handleVerificationSuccess(token)}
           />
 
           <Button
@@ -156,6 +186,7 @@ export const Register: React.FC = () => {
             color="mint"
             disabled={
               !username ||
+              !fullName ||
               !email ||
               !isPasswordStrong ||
               !doPasswordsMatch ||
