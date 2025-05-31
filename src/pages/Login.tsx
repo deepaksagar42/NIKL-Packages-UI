@@ -13,17 +13,45 @@ import {
 } from "@radix-ui/themes";
 import { csrfToken } from "../state/Auth";
 import { useSetAtom } from "jotai";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
+import { loginUser } from "../api/users";
 
 export const Login: React.FC = () => {
   const setCsrfToken = useSetAtom(csrfToken);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [hcaptchaToken, setHcaptchaToken] = useState("");
 
-  const handleLogin = () => {
-    // Add validation here if needed
-    setCsrfToken("mock-csrf-token");
-    window.location.href = "/manage/dashboard";
+  const handleLogin = async () => {
+    if (!username || !password || !hcaptchaToken) {
+      alert("Please fill in all fields and complete the CAPTCHA.");
+      return;
+    }
+
+    try {
+      const response_headers = await loginUser({
+        user_name: username,
+        password,
+        hcaptcha_token: hcaptchaToken,
+      });
+      
+      console.log("Raw JSON response:", response_headers);
+      setCsrfToken(response_headers["x-csrf-token"] || "");
+
+      alert("Login successful!");
+      window.location.href = "/manage/dashboard";
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      alert("Login failed: " + error.message);
+      return;
+    }
+
+
+  };
+
+  const handleVerificationSuccess = (token: string) => {
+    setHcaptchaToken(token);
   };
 
   return (
@@ -77,6 +105,11 @@ export const Login: React.FC = () => {
               <Text size="2" color="blue">Forgot Password?</Text>
             </Link>
           </Flex>
+
+          <HCaptcha
+            sitekey="49a8ab5c-072a-4228-bd0c-bdd4bd70c450"
+            onVerify={(token,_) => handleVerificationSuccess(token)}
+          />
 
           <Button
             variant="solid"

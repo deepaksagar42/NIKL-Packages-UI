@@ -42,3 +42,61 @@ export const registerUser = async ({
     throw new Error(errMsg);
   }
 };
+
+
+export const loginUser = async ({
+  user_name,
+  password,
+  hcaptcha_token,
+}: {
+  user_name: string;
+  password: string;
+  hcaptcha_token: string;
+}): Promise<any> => {
+  try {
+    const response = await axios.post(`${BASE_URL}/login`, {
+      user_name,
+      password: btoa(password), // base64-encode
+      hcaptcha_token,
+    }, {
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      console.log("Login successful:", response.data);
+      return response.headers;
+    } else {
+      throw new Error("Unexpected response status: " + response.status);
+    }
+
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    console.error("Login failed:", errMsg);
+    throw new Error(errMsg);
+  }
+}
+
+
+export const validateUserSession = async (): Promise<any> => {
+  try {
+    const response = await axios.get(`${BASE_URL}/validate-session`, {
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true, // Ensure cookies are sent
+    });
+    if (response.status === 200) {
+      console.log("Session validation successful:", response.data);
+      return response.data;
+    }
+    throw new Error("Unexpected response status: " + response.status);
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    console.error("Session validation failed:", errMsg);
+    throw new Error(errMsg);
+  }
+};

@@ -60,8 +60,6 @@ export const Register: React.FC = () => {
       } catch (error: any) {
         alert("Registration failed: " + error.message);
       }
-
-      // window.location.href = "/manage/dashboard";
     }
   };
 
