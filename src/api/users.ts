@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useAtomValue } from 'jotai';
+import { csrfToken } from "../state/Auth";
 
 const BASE_URL = "https://api.nikl-pkg.nekonik.com/users";
 
@@ -82,11 +84,13 @@ export const loginUser = async ({
 
 
 export const validateUserSession = async (): Promise<any> => {
+  const csrfTokenValue = useAtomValue(csrfToken);
   try {
     const response = await axios.get(`${BASE_URL}/validate-session`, {
       headers: {
         'accept': 'application/json',
         'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfTokenValue,
       },
       withCredentials: true, // Ensure cookies are sent
     });
