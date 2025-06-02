@@ -31,7 +31,7 @@ export const Search: React.FC = () => {
       <NavBar />
       <SearchBar />
 
-      <Text style={{marginTop: "10px", marginBottom: "10px"}}>
+      <Text>
         Search query param is: <strong>{query}</strong>
       </Text>
 
