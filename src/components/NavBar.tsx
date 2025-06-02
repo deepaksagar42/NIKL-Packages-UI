@@ -10,8 +10,11 @@ type NavButtonProps = {
 };
 
 export function NavBar() {
-  const user = useAtomValue(csrfToken);
+  const csrfTokenValue = useAtomValue(csrfToken);
   const setCsrfToken = useSetAtom(csrfToken);
+  
+  const isSessionValidCookie = document.cookie.includes('IS_SESSION_VALID');
+  const user = isSessionValidCookie ? { csrfToken: csrfTokenValue } : null;
 
   const DisplayNavButton = ({ name, href }: NavButtonProps) => (
     <Link href={href} underline="none" weight="medium" color="gray">

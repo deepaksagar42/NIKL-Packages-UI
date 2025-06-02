@@ -16,7 +16,10 @@ import ForgotPassword from './pages/ForgotPassword';
 
 
 function App() {
-  const user = useAtomValue(csrfToken);
+  const csrfTokenValue = useAtomValue(csrfToken);
+  const isSessionValidCookie = document.cookie.includes('IS_SESSION_VALID');
+
+  const user = isSessionValidCookie ? { csrfToken: csrfTokenValue } : null;
 
   return (
     <BrowserRouter>
