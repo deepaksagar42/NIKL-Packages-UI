@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Flex, Text, Button, Badge } from '@radix-ui/themes';
 
 interface PackageVersion {
+  packageId: string;
   version: string;
   semverMajor: string;
   author: string;
@@ -19,7 +20,7 @@ interface PackageVersionsListProps {
 
 // Mock API
 const fetchPackageVersions = async (
-  packageId: string, 
+  packageId: string,
   page: number,
   pageSize: number
 ): Promise<{ versions: PackageVersion[]; total: number }> => {
@@ -27,6 +28,7 @@ const fetchPackageVersions = async (
   const versions: PackageVersion[] = Array.from({ length: Math.min(pageSize, total - (page - 1) * pageSize) }, (_, i) => {
     const idx = (page - 1) * pageSize + i;
     return {
+      packageId: packageId + `-${idx}`,
       version: `2.0.${101 - idx}`,
       semverMajor: '2.x',
       author: 'David Tolnay',
@@ -58,7 +60,7 @@ export const PackageVersionsList: React.FC<PackageVersionsListProps> = ({ packag
   const totalPages = Math.ceil(total / pageSize);
   return (
     <Box>
-      <Flex justify="space-between" align="center" mb="3">
+      <Flex align="center" mb="3">
         <Text size="2" style={{ display: 'block' }}>
           {loading ? 'Loading versions...' : `${total} versions since September 7th, 2016`}
         </Text>

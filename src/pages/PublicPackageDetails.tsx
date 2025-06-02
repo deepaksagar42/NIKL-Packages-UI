@@ -94,7 +94,7 @@ export const PublicPackageDetails: React.FC = () => {
                 </Tabs.Content>
                 <Tabs.Content value="versions">
                   <Text size="2">List of versions for this package</Text>
-                  <PackageVersionsList packageId={packageId} />
+                  <PackageVersionsList packageId={packageId || ''} />
                 </Tabs.Content>
                 <Tabs.Content value="dependencies">
                   <DependenciesList packageId={packageId || ''} version={packageVersion || ''} />
