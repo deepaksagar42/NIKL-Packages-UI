@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { useParams } from "react-router-dom";
 import { DependenciesList } from "../components/DependenciesList";
+import { PackageVersionsList } from "../components/PackageVersionsList";
 import { fetchPackageReadme } from "../api/packageApi";
 import type { PackageReadme } from "../api/types";
 import { MarkdownRenderer } from "../components/MarkdownRenderer";
+
 
 export const PublicPackageDetails: React.FC = () => {
   // Get the Package ID and Version from the URL path /package/:id/:version
@@ -92,6 +94,7 @@ export const PublicPackageDetails: React.FC = () => {
                 </Tabs.Content>
                 <Tabs.Content value="versions">
                   <Text size="2">List of versions for this package</Text>
+                  <PackageVersionsList packageId={packageId} />
                 </Tabs.Content>
                 <Tabs.Content value="dependencies">
                   <DependenciesList packageId={packageId || ''} version={packageVersion || ''} />
