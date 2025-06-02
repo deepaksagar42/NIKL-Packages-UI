@@ -13,7 +13,7 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import PublicPackageDetails from './pages/PublicPackageDetails';
 import ForgotPassword from './pages/ForgotPassword';
-
+import { Footer } from "./components/Footer";
 
 function App() {
   const csrfTokenValue = useAtomValue(csrfToken);
@@ -22,6 +22,7 @@ function App() {
   const user = isSessionValidCookie ? { csrfToken: csrfTokenValue } : null;
 
   return (
+    
     <BrowserRouter>
       <Routes>
         {/* Public routes */}
@@ -58,7 +59,10 @@ function App() {
         {/* Catch-all route for 404 Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Footer/>     
     </BrowserRouter>
+
+    
   )
 
 }
