@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { csrfToken, userDetails, type UserDetails } from "../state/Auth";
-import { useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { getUserDetails, loginUser } from "../api/users";
 
@@ -20,6 +20,7 @@ import { getUserDetails, loginUser } from "../api/users";
 export const Login: React.FC = () => {
   const setCsrfToken = useSetAtom(csrfToken);
   const setUserDetails = useSetAtom(userDetails);
+  const csrfTokenValue = useAtomValue(csrfToken);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +43,7 @@ export const Login: React.FC = () => {
       console.log("Raw JSON response:", response_headers);
       setCsrfToken(response_headers["x-csrf-token"] || "");
 
-      const user_details = await getUserDetails();
+      const user_details = await getUserDetails(csrfTokenValue? csrfTokenValue : "");
       console.log("User details:", user_details);
 
       setUserDetails({

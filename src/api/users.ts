@@ -107,8 +107,7 @@ export const validateUserSession = async (): Promise<any> => {
 };
 
 
-export const getUserDetails = async (): Promise<any> => {
-  const csrfTokenValue = useAtomValue(csrfToken);
+export const getUserDetails = async (csrfTokenValue: string): Promise<any> => {
   try {
     const response = await axios.get(`${BASE_URL}/profile`, {
       headers: {
