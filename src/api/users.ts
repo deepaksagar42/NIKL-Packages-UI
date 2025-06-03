@@ -109,6 +109,11 @@ export const validateUserSession = async (): Promise<any> => {
 
 export const getUserDetails = async (csrfTokenValue: string): Promise<any> => {
   try {
+    console.log("Fetching user details with CSRF token:", csrfTokenValue);
+    if (!csrfTokenValue) {
+      throw new Error("CSRF token is required for fetching user details.");
+    }
+
     const response = await axios.get(`${BASE_URL}/profile`, {
       headers: {
         'accept': 'application/json',
