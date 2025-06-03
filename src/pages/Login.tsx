@@ -15,6 +15,7 @@ import { csrfToken, userDetails, type UserDetails } from "../state/Auth";
 import { useSetAtom } from "jotai";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { getUserDetails, loginUser } from "../api/users";
+import md5 from "md5"; // Top of the file
 
 
 export const Login: React.FC = () => {
@@ -48,7 +49,7 @@ export const Login: React.FC = () => {
       setUserDetails({
         email: user_details.email,
         username: user_details.user_name,
-        profilePicture: `https://www.gravatar.com/avatar/${btoa(user_details.email)}?d=identicon&s=200`,
+        profilePicture: `https://www.gravatar.com/avatar/${md5(user_details.email.trim().toLowerCase())}?d=identicon&s=200`,
         details: {
           fullName: user_details.profile_data.full_name
         }
