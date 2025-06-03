@@ -83,6 +83,32 @@ export const loginUser = async ({
 }
 
 
+export const logoutUser = async (csrfTokenValue: string): Promise<any> => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/logout`, {
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfTokenValue, // Include CSRF token in the headers
+      },
+      withCredentials: true,
+    });
+
+    if (response.status === 200) {
+      console.log("Logout successful:", response.data);
+      return response.data;
+    } else {
+      throw new Error("Unexpected response status: " + response.status);
+    }
+
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    console.error("Logout failed:", errMsg);
+    throw new Error(errMsg);
+  }
+}
+
+
 export const validateUserSession = async (): Promise<any> => {
   const csrfTokenValue = useAtomValue(csrfToken);
   try {
