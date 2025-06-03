@@ -11,14 +11,15 @@ import {
   Text,
   TextField,
 } from "@radix-ui/themes";
-import { csrfToken } from "../state/Auth";
+import { csrfToken, userDetails, type UserDetails } from "../state/Auth";
 import { useSetAtom } from "jotai";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-import { loginUser } from "../api/users";
+import { getUserDetails, loginUser } from "../api/users";
 
 
 export const Login: React.FC = () => {
   const setCsrfToken = useSetAtom(csrfToken);
+  const setUserDetails = useSetAtom(userDetails);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +41,18 @@ export const Login: React.FC = () => {
       
       console.log("Raw JSON response:", response_headers);
       setCsrfToken(response_headers["x-csrf-token"] || "");
+
+      const user_details = await getUserDetails();
+      console.log("User details:", user_details);
+
+      setUserDetails({
+        email: user_details.email,
+        username: user_details.user_name,
+        profilePicture: `https://www.gravatar.com/avatar/${btoa(user_details.email)}?d=identicon&s=200`,
+        details: {
+          fullName: user_details.profile_data.full_name
+        }
+      } as UserDetails);
 
       alert("Login successful!");
       window.location.href = "/manage/dashboard";
