@@ -55,7 +55,6 @@ export const Login: React.FC = () => {
         }
       } as UserDetails);
 
-      alert("Login successful!");
       window.location.href = "/manage/dashboard";
     } catch (error: any) {
       console.error("Login failed:", error);
