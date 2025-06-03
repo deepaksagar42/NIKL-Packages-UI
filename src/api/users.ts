@@ -105,3 +105,27 @@ export const validateUserSession = async (): Promise<any> => {
     throw new Error(errMsg);
   }
 };
+
+
+export const getUserDetails = async (): Promise<any> => {
+  const csrfTokenValue = useAtomValue(csrfToken);
+  try {
+    const response = await axios.get(`${BASE_URL}/profile`, {
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfTokenValue,
+      },
+      withCredentials: true, // Ensure cookies are sent
+    });
+    if (response.status === 200) {
+      console.log("Session validation successful:", response.data);
+      return response.data;
+    }
+    throw new Error("Unexpected response status: " + response.status);
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    console.error("Session validation failed:", errMsg);
+    throw new Error(errMsg);
+  }
+};
