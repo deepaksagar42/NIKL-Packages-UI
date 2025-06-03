@@ -23,7 +23,7 @@ export const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [hcaptchaToken, setHcaptchaToken] = useState("");
+  const [hcaptchaToken, setHcaptchaToken] = useState("cats");
   const hcaptchaRef = useRef<any>(null);
 
   const handleLogin = async () => {
