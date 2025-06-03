@@ -14,6 +14,7 @@ export function NavBar() {
   const csrfTokenValue = useAtomValue(csrfToken);
   const userDetailsValue = useAtomValue(userDetails);
   const setCsrfToken = useSetAtom(csrfToken);
+  const setUserDetails = useSetAtom(userDetails);
   
   const isSessionValidCookie = document.cookie.includes('IS_SESSION_VALID');
   const user = isSessionValidCookie ? { csrfToken: csrfTokenValue } : null;
@@ -29,6 +30,15 @@ export function NavBar() {
     try {
       await logoutUser(csrfTokenValue || '');
       setCsrfToken('');
+      setUserDetails({
+        email: '',
+        username: '',
+        profilePicture: '',
+        details: {
+          fullName: ''
+        }
+      });
+      document.cookie = 'IS_SESSION_VALID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       window.location.href = '/';
     } catch (error) {
       console.error('Logout failed:', error);
