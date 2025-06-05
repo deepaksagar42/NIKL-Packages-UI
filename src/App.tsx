@@ -20,7 +20,7 @@ function App() {
   const isSessionValidCookie = document.cookie.includes('IS_SESSION_VALID');
 
   const user = isSessionValidCookie ? { csrfToken: csrfTokenValue } : null;
-
+ 
   return (
     <BrowserRouter>
       <Routes>
