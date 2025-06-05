@@ -4,6 +4,7 @@ import { Box, Flex, Text, Button, Card, Grid, Link } from '@radix-ui/themes'
 import { ArrowRightIcon, DownloadIcon, ArchiveIcon, InfoCircledIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Footer from '../components/Footer'
 
 function Home() {
   const navigate = useNavigate();
@@ -159,7 +160,10 @@ function Home() {
 </a>
         </Flex>
       </Box>
+      <Footer />
+
     </Box>
+    
   )
 }
 
