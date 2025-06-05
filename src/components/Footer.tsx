@@ -6,6 +6,7 @@ const statusColor = {
   operational: 'var(--green-9)',
   ExperincingHighLoad: 'var(--yellow-9)',
   down: 'var(--red-9)',
+  up : 'var(--green-9)',
 }
 
 const Footer = () => {
