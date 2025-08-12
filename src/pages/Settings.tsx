@@ -1,15 +1,4 @@
-import { Box } from "@radix-ui/themes";
-import React from "react";
-import { NavBar } from "../components/NavBar";
-
-
-export const Settings: React.FC = () => {
-  return (
-    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-      <NavBar />
-
-      <h1>Settings</h1>
-       import { Box, Button, Text, TextField } from "@radix-ui/themes";
+import { Box, Button, Text, TextField } from "@radix-ui/themes";
 import React, { useState } from "react";
 import { NavBar } from "../components/NavBar";
 
@@ -81,12 +70,6 @@ export const Settings: React.FC = () => {
           Delete Account
         </Button>
       </Box>
-    </Box>
-  );
-};
-
-export default Settings;
-
     </Box>
   );
 };
